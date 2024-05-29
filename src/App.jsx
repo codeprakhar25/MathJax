@@ -1,35 +1,58 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const data = "When \\(a \\ne 0\\), there are two solutions to \\(ax^2 + bx + c = 0\\) and they are \\[x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.\\]";
+  const [tex, setTex] = useState('');
 
+  useEffect(()=>{
+    if( typeof window?.MathJax !== "undefined"){
+      window.MathJax.typesetClear()
+      window.MathJax.typeset()
+    }
+  },[tex])
+ 
   return (
-    <>
+    <div>
+      <h2>Integrating MathJax v3 in React</h2>
+      <p>{data}</p>
+      <span>Input Latex Here </span>
+      <input onChange={(e)=> {
+        setTex(e.target.value) }}/>
+      <h4>Rendered Latex : </h4>
+      <p>{tex}</p>
+      <p>$x^2+2x+6=0$ and using this propertu</p>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <table className="table-style-a2">
+          <thead>
+            <tr>
+              <th>Radical in the integral</th>
+              <th>Trigonometric substitution</th>
+              <th>Hyperbolic substitution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span dangerouslySetInnerHTML={{ __html: '$\\sqrt{a^2-x^2}$' }} /></td>
+              <td><span dangerouslySetInnerHTML={{ __html: '$x = a \\sin (\\theta)$' }} /></td>
+              <td><span dangerouslySetInnerHTML={{ __html: '$x = a \\tanh (\\phi)$' }} /></td>
+            </tr>
+            <tr>
+              <td><span dangerouslySetInnerHTML={{ __html: '$\\sqrt{a^2+x^2}$' }} /></td>
+              <td><span dangerouslySetInnerHTML={{ __html: '$x = a \\tan (\\theta)$' }} /></td>
+              <td><span dangerouslySetInnerHTML={{ __html: '$x = a \\sinh (\\phi)$' }} /></td>
+            </tr>
+            <tr>
+              <td><span dangerouslySetInnerHTML={{ __html: '$\\sqrt{x^2-a^2}$' }} /></td>
+              <td><span dangerouslySetInnerHTML={{ __html: '$x = a \\sec (\\theta)$' }} /></td>
+              <td><span dangerouslySetInnerHTML={{ __html: '$x = a \\cosh (\\phi)$' }} /></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
